@@ -1,10 +1,10 @@
-package me.katze.powerantirelog.listener;
+package ru.bloodmine.bloodmineantirelog.listener;
 
-import me.katze.powerantirelog.manager.PvPManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
 public class DeathListener implements Listener {
 

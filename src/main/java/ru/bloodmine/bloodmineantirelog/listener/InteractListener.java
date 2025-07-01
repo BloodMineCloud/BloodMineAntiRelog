@@ -1,13 +1,12 @@
-package me.katze.powerantirelog.listener;
+package ru.bloodmine.bloodmineantirelog.listener;
 
-import me.katze.powerantirelog.AntiRelog;
-import me.katze.powerantirelog.manager.PvPManager;
-import me.katze.powerantirelog.utility.StringUtility;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import ru.bloodmine.bloodmineantirelog.AntiRelog;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
 public class InteractListener implements Listener {
 

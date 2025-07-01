@@ -1,11 +1,11 @@
-package me.katze.powerantirelog.listener;
+package ru.bloodmine.bloodmineantirelog.listener;
 
-import me.katze.powerantirelog.manager.PvPManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
 public class LeaveListener implements Listener {
 

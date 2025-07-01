@@ -1,7 +1,5 @@
-package me.katze.powerantirelog.listener;
+package ru.bloodmine.bloodmineantirelog.listener;
 
-import me.katze.powerantirelog.manager.PvPManager;
-import me.katze.powerantirelog.utility.PlayerUtility;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,6 +10,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
+import ru.bloodmine.bloodmineantirelog.utility.PlayerUtility;
 
 public class DamageListener implements Listener {
 

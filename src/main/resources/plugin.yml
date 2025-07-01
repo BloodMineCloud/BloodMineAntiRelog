@@ -1,11 +1,10 @@
-name: powerantirelog
+name: bloodmineantirelog
 version: '${project.version}'
-main: me.katze.powerantirelog.AntiRelog
+main: ru.bloodmine.bloodmineantirelog.AntiRelog
 api-version: '1.16'
-authors: [katze225]
-website: https://github.com/katze225/PowerAntiRelog/
+authors: [BloodMine, TheDiVaZo]
+website: 'https://github.com/BloodMineCloud/BloodMineAntiRelog'
 description: AntiRelog plugin for your server
 softdepend:
   - CMI
   - WorldGuard
-  - Essentials

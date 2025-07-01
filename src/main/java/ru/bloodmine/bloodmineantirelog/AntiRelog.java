@@ -1,17 +1,16 @@
-package me.katze.powerantirelog;
+package ru.bloodmine.bloodmineantirelog;
 
 import co.aikar.commands.PaperCommandManager;
-import me.katze.powerantirelog.command.HelpCommand;
-import me.katze.powerantirelog.command.ReloadCommand;
-import me.katze.powerantirelog.command.TestCommand;
-import me.katze.powerantirelog.listener.*;
-import me.katze.powerantirelog.manager.CooldownManager;
-import me.katze.powerantirelog.manager.PvPManager;
-import me.katze.powerantirelog.utility.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
+import ru.bloodmine.bloodmineantirelog.command.HelpCommand;
+import ru.bloodmine.bloodmineantirelog.command.ReloadCommand;
+import ru.bloodmine.bloodmineantirelog.command.TestCommand;
+import ru.bloodmine.bloodmineantirelog.listener.*;
+import ru.bloodmine.bloodmineantirelog.manager.CooldownManager;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
 public final class AntiRelog extends JavaPlugin {
 

@@ -1,20 +1,22 @@
-package me.katze.powerantirelog.command;
+package ru.bloodmine.bloodmineantirelog.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
-import me.katze.powerantirelog.AntiRelog;
-import me.katze.powerantirelog.utility.StringUtility;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import ru.bloodmine.bloodmineantirelog.AntiRelog;
+import ru.bloodmine.bloodmineantirelog.utility.StringUtility;
 
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-@CommandAlias("antirelog|ar|powerantirelog")
+@CommandAlias("antirelog|ar|antirelog")
 public class ReloadCommand extends BaseCommand {
 
     @Subcommand("reload")
-    @CommandPermission("powerantirelog.reload")
+    @CommandPermission("antirelog.reload")
     public void onReload(CommandSender sender) {
         AntiRelog.getInstance().saveDefaultConfig();
         AntiRelog.getInstance().reloadConfig();

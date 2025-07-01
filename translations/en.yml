@@ -64,9 +64,9 @@ messages:
   help:
     - "&r"
     - "§x§E§3§2§6§3§6PowerAntiRelog:"
-    - "&7- §x§E§3§2§6§3§6/powerantirelog help &7- &fCommand list"
-    - "&7- §x§E§3§2§6§3§6/powerantirelog reload &7- &fReloads configuration"
-    - "&7- §x§E§3§2§6§3§6/powerantirelog test {игрок} &7- &fGives the player a combat mode"
+    - "&7- §x§E§3§2§6§3§6/antirelog help &7- &fCommand list"
+    - "&7- §x§E§3§2§6§3§6/antirelog reload &7- &fReloads configuration"
+    - "&7- §x§E§3§2§6§3§6/antirelog test {игрок} &7- &fGives the player a combat mode"
     - "&r"
   reload: "§x§E§3§2§6§3§6&l| &aThe plugin configuration has been successfully reloaded!"
   test: "§x§E§3§2§6§3§6&l| &fYou gave §x§E§3§2§6§3§6{player} &fplayer PvP mode."

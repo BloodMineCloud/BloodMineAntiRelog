@@ -1,10 +1,5 @@
-package me.katze.powerantirelog.listener;
+package ru.bloodmine.bloodmineantirelog.listener;
 
-import me.katze.powerantirelog.AntiRelog;
-import me.katze.powerantirelog.data.CooldownData;
-import me.katze.powerantirelog.manager.CooldownManager;
-import me.katze.powerantirelog.manager.PvPManager;
-import me.katze.powerantirelog.utility.StringUtility;
 import org.bukkit.Material;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -17,6 +12,12 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import ru.bloodmine.bloodmineantirelog.AntiRelog;
+import ru.bloodmine.bloodmineantirelog.data.CooldownData;
+import ru.bloodmine.bloodmineantirelog.manager.CooldownManager;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
+import ru.bloodmine.bloodmineantirelog.utility.StringUtility;
+
 import java.time.Duration;
 import java.time.LocalTime;
 

@@ -1,11 +1,11 @@
-package me.katze.powerantirelog.utility;
+package ru.bloodmine.bloodmineantirelog.utility;
 
-import me.katze.powerantirelog.AntiRelog;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import ru.bloodmine.bloodmineantirelog.AntiRelog;
 
 public class BossBarUtility {
 

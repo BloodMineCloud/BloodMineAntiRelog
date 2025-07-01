@@ -1,20 +1,23 @@
-package me.katze.powerantirelog.command;
+package ru.bloodmine.bloodmineantirelog.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
-import me.katze.powerantirelog.AntiRelog;
-import me.katze.powerantirelog.manager.PvPManager;
-import me.katze.powerantirelog.utility.StringUtility;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import ru.bloodmine.bloodmineantirelog.AntiRelog;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
+import ru.bloodmine.bloodmineantirelog.utility.StringUtility;
 
-@CommandAlias("antirelog|ar|powerantirelog")
+@CommandAlias("antirelog|ar")
 public class TestCommand extends BaseCommand {
 
     @Subcommand("test")
     @CommandCompletion("@players")
-    @CommandPermission("powerantirelog.test")
+    @CommandPermission("antirelog.test")
     public void onTest(CommandSender sender, String target) {
         Player player = Bukkit.getPlayer(target);
 

@@ -1,13 +1,7 @@
-package me.katze.powerantirelog.manager;
+package ru.bloodmine.bloodmineantirelog.manager;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Containers.CMIUser;
-import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.User;
-import me.katze.powerantirelog.AntiRelog;
-import me.katze.powerantirelog.data.CooldownData;
-import me.katze.powerantirelog.utility.BossBarUtility;
-import me.katze.powerantirelog.utility.StringUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -17,6 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import ru.bloodmine.bloodmineantirelog.AntiRelog;
+import ru.bloodmine.bloodmineantirelog.utility.BossBarUtility;
+import ru.bloodmine.bloodmineantirelog.utility.StringUtility;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +30,7 @@ public class PvPManager {
     public static void addPlayer(Player player) {
         if (player == null)
             return;
-        if (player.hasPermission("powerantirelog.bypass"))
+        if (player.hasPermission("antirelog.bypass"))
             return;
         if (player.isOp())
             return;

@@ -1,4 +1,4 @@
-package me.katze.powerantirelog.data;
+package ru.bloodmine.bloodmineantirelog.data;
 
 import java.time.LocalTime;
 

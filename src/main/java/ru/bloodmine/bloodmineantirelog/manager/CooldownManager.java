@@ -1,8 +1,8 @@
-package me.katze.powerantirelog.manager;
+package ru.bloodmine.bloodmineantirelog.manager;
 
-import me.katze.powerantirelog.data.CooldownData;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import ru.bloodmine.bloodmineantirelog.data.CooldownData;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

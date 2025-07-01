@@ -1,12 +1,12 @@
-package me.katze.powerantirelog.listener;
+package ru.bloodmine.bloodmineantirelog.listener;
 
-import me.katze.powerantirelog.AntiRelog;
-import me.katze.powerantirelog.manager.PvPManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.codemc.worldguardwrapper.event.WrappedDisallowedPVPEvent;
+import ru.bloodmine.bloodmineantirelog.AntiRelog;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
 public class WorldGuardListener implements Listener {
 

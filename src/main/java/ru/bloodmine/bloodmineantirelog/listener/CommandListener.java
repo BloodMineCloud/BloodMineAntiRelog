@@ -1,13 +1,13 @@
-package me.katze.powerantirelog.listener;
+package ru.bloodmine.bloodmineantirelog.listener;
 
-import me.katze.powerantirelog.AntiRelog;
-import me.katze.powerantirelog.manager.PvPManager;
-import me.katze.powerantirelog.utility.StringUtility;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import ru.bloodmine.bloodmineantirelog.AntiRelog;
+import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
+import ru.bloodmine.bloodmineantirelog.utility.StringUtility;
 
 public class CommandListener implements Listener {
 

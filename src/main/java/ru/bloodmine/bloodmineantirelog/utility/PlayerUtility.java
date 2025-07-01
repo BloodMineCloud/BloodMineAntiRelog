@@ -1,4 +1,4 @@
-package me.katze.powerantirelog.utility;
+package ru.bloodmine.bloodmineantirelog.utility;
 
 import org.bukkit.entity.*;
 

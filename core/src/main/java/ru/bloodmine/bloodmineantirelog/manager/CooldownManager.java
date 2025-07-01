@@ -9,14 +9,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CooldownManager {
-    private static HashMap<String, List<CooldownData>> cooldownMap;
+public class CooldownManager implements ICooldownManager {
+    private HashMap<String, List<CooldownData>> cooldownMap;
 
     public CooldownManager() {
         this.cooldownMap = new HashMap<>();
     }
 
-    public static void addPlayer(Player player, Material material) {
+    @Override
+    public void addPlayer(Player player, Material material) {
         if (material == null) return;
 
         CooldownData data = new CooldownData(LocalTime.now(), material.name());
@@ -36,7 +37,8 @@ public class CooldownManager {
         }
     }
 
-    public static CooldownData getCooldownData(Player player, Material material) {
+    @Override
+    public CooldownData getCooldownData(Player player, Material material) {
         if (cooldownMap.containsKey(player.getName())) {
             for (CooldownData cooldownData : cooldownMap.get(player.getName())) {
                 if (cooldownData.getItem().equals(material.name())) {
@@ -47,11 +49,13 @@ public class CooldownManager {
         return null;
     }
 
-    public static void removePlayer(Player player) {
+    @Override
+    public void removePlayer(Player player) {
         cooldownMap.remove(player.getName());
     }
 
-    public static void clearMap() {
+    @Override
+    public void clearMap() {
         cooldownMap.clear();
     }
 }

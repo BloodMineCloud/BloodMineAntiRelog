@@ -11,11 +11,17 @@ import ru.bloodmine.bloodmineantirelog.utility.StringUtility;
 
 public class CommandListener implements Listener {
 
+    private final PvPManager pvpManager;
+
+    public CommandListener(PvPManager pvpManager) {
+        this.pvpManager = pvpManager;
+    }
+
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
 
-        if (!PvPManager.isPvP(player)) return;
+        if (!pvpManager.isPvP(player)) return;
         if (!AntiRelog.getInstance().getConfig().getBoolean("settings.cancel.command")) return;
 
         String command = e.getMessage().split(" ")[0].replaceFirst("/", "");

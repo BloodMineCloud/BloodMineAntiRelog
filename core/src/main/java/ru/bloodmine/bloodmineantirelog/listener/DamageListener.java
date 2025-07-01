@@ -15,6 +15,12 @@ import ru.bloodmine.bloodmineantirelog.utility.PlayerUtility;
 
 public class DamageListener implements Listener {
 
+    private final PvPManager pvpManager;
+
+    public DamageListener(PvPManager pvpManager) {
+        this.pvpManager = pvpManager;
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamageByEntity(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) return;
@@ -25,8 +31,8 @@ public class DamageListener implements Listener {
         if (damager == null) return;
         if (damager == target) return;
 
-        PvPManager.addPlayer(target);
-        PvPManager.addPlayer(damager);
+        pvpManager.addPlayer(target);
+        pvpManager.addPlayer(damager);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -40,8 +46,8 @@ public class DamageListener implements Listener {
 
         if (damager == target) return;
 
-        PvPManager.addPlayer(target);
-        PvPManager.addPlayer(damager);
+        pvpManager.addPlayer(target);
+        pvpManager.addPlayer(damager);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -55,8 +61,8 @@ public class DamageListener implements Listener {
 
             for (PotionEffect effect : e.getPotion().getEffects()) {
                 if (effect.getType().equals(PotionEffectType.POISON) || effect.getType().equals(PotionEffectType.DAMAGE_RESISTANCE)) {
-                    PvPManager.addPlayer(damager);
-                    PvPManager.addPlayer((Player) target);
+                    pvpManager.addPlayer(damager);
+                    pvpManager.addPlayer((Player) target);
                     return;
                 }
             }

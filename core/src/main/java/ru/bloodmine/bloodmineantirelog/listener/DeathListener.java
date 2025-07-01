@@ -8,13 +8,19 @@ import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
 public class DeathListener implements Listener {
 
+    private final PvPManager pvpManager;
+
+    public DeathListener(PvPManager pvpManager) {
+        this.pvpManager = pvpManager;
+    }
+
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity().getPlayer();
 
-        if (!PvPManager.isPvP(player))
+        if (!pvpManager.isPvP(player))
             return;
 
-        PvPManager.death(player);
+        pvpManager.death(player);
     }
 }

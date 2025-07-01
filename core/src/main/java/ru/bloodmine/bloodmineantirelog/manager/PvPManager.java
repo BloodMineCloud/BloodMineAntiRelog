@@ -2,10 +2,13 @@ package ru.bloodmine.bloodmineantirelog.manager;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Containers.CMIUser;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -20,14 +23,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class PvPManager {
-    private static HashMap<String, Integer> pvpMap;
+public class PvPManager implements IPvPManager {
+    private HashMap<String, Integer> pvpMap;
 
-    public PvPManager() {
+    @Getter
+    @Setter
+    private FileConfiguration config;
+
+    private final CooldownManager cooldownManager;
+
+    private final AntiRelog antiRelog;
+
+
+    public PvPManager(AntiRelog antiRelog) {
+        this.cooldownManager = antiRelog.cooldownManager;
+        this.antiRelog = antiRelog;
         this.pvpMap = new HashMap<>();
+        this.config = antiRelog.getConfig();
     }
 
-    public static void addPlayer(Player player) {
+    @Override
+    public void addPlayer(Player player) {
         if (player == null)
             return;
         if (player.hasPermission("antirelog.bypass"))
@@ -40,26 +56,28 @@ public class PvPManager {
             return;
 
         String name = player.getName();
-        int time = AntiRelog.getInstance().getConfig().getInt("settings.time");
+        int time = config.getInt("settings.time");
 
         if (pvpMap.containsKey(name)) {
             pvpMap.put(name, time);
         } else {
             player.sendMessage(
-                    StringUtility.getMessage(AntiRelog.getInstance().getConfig().getString("messages.start")));
+                    StringUtility.getMessage(config.getString("messages.start")));
             sendCommands(true, player);
             disable(player);
             pvpMap.put(name, time);
         }
     }
 
-    public static void removeFromMaps(Player player) {
+    @Override
+    public void removeFromMaps(Player player) {
         pvpMap.remove(player.getName());
 
-        CooldownManager.removePlayer(player);
+        cooldownManager.removePlayer(player);
     }
 
-    public static boolean isPvP(Player player) {
+    @Override
+    public boolean isPvP(Player player) {
         String name = player.getName();
 
         if (pvpMap.containsKey(name)) {
@@ -68,13 +86,14 @@ public class PvPManager {
         return false;
     }
 
-    public static void leave(Player player) {
-        if (AntiRelog.getInstance().getConfig().getBoolean("settings.leave.kill")) {
+    @Override
+    public void leave(Player player) {
+        if (config.getBoolean("settings.leave.kill")) {
             player.damage(player.getHealth());
             player.setHealth(0);
         }
 
-        for (String string : AntiRelog.getInstance().getConfig().getStringList("settings.leave.message")) {
+        for (String string : config.getStringList("settings.leave.message")) {
             String replacedString = StringUtility.getMessage(string).replace("{player}", player.getName());
             Bukkit.getServer().broadcastMessage(replacedString);
         }
@@ -82,11 +101,12 @@ public class PvPManager {
         removeFromMaps(player);
     }
 
-    private static void disable(Player player) {
-        if (AntiRelog.getInstance().getConfig().getBoolean("settings.disable.fly")) {
+    @Override
+    public void disable(Player player) {
+        if (config.getBoolean("settings.disable.fly")) {
             player.setFlying(false);
             player.setAllowFlight(false);
-            if (AntiRelog.getInstance().CMI_HOOK) {
+            if (antiRelog.CMI_HOOK) {
                 CMIUser user = CMI.getInstance().getPlayerManager().getUser(player);
 
                 if (user != null) {
@@ -97,19 +117,19 @@ public class PvPManager {
             }
         }
 
-        if (AntiRelog.getInstance().getConfig().getBoolean("settings.disable.speed")) {
+        if (config.getBoolean("settings.disable.speed")) {
             player.setWalkSpeed(0.2F);
         }
 
-        if (AntiRelog.getInstance().getConfig().getBoolean("settings.disable.gamemode")) {
+        if (config.getBoolean("settings.disable.gamemode")) {
             player.setGameMode(GameMode.SURVIVAL);
         }
 
-        if (AntiRelog.getInstance().getConfig().getBoolean("settings.disable.invisibility")) {
+        if (config.getBoolean("settings.disable.invisibility")) {
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
         }
 
-        if (AntiRelog.getInstance().getConfig().getBoolean("settings.disable.elytra")
+        if (config.getBoolean("settings.disable.elytra")
                 && player.getInventory().getChestplate() != null
                 && player.getInventory().getChestplate().getType() == Material.ELYTRA) {
 
@@ -118,8 +138,8 @@ public class PvPManager {
             player.getInventory().addItem(elytra);
         }
 
-        if (AntiRelog.getInstance().getConfig().getBoolean("settings.disable.godmode")) {
-            if (AntiRelog.getInstance().CMI_HOOK) {
+        if (config.getBoolean("settings.disable.godmode")) {
+            if (antiRelog.CMI_HOOK) {
                 CMIUser user = CMI.getInstance().getPlayerManager().getUser(player);
 
                 if (user != null) {
@@ -130,16 +150,16 @@ public class PvPManager {
         }
     }
 
-    public static BukkitTask startTask() {
+    public BukkitTask startTask() {
         return new BukkitRunnable() {
             @Override
             public void run() {
                 update();
             }
-        }.runTaskTimer(AntiRelog.getInstance(), 0L, 20L);
+        }.runTaskTimer(antiRelog, 0L, 20L);
     }
 
-    private static void update() {
+    private void update() {
         if (pvpMap == null)
             return;
 
@@ -154,7 +174,7 @@ public class PvPManager {
                 Player player = Bukkit.getPlayer(name);
                 if (player != null) {
                     player.sendMessage(
-                            StringUtility.getMessage(AntiRelog.getInstance().getConfig().getString("messages.end")));
+                            StringUtility.getMessage(config.getString("messages.end")));
                     sendCommands(false, player);
                 }
             } else {
@@ -164,22 +184,23 @@ public class PvPManager {
         }
     }
 
-    public static void death(Player player) {
+    @Override
+    public void death(Player player) {
         String name = player.getName();
 
         if (pvpMap.containsKey(name)) {
             pvpMap.remove(name);
         }
 
-        CooldownManager.removePlayer(player);
+        cooldownManager.removePlayer(player);
     }
 
-    private static void sendCommands(boolean start, Player player) {
+    private void sendCommands(boolean start, Player player) {
         List<String> commands;
         if (start) {
-            commands = AntiRelog.getInstance().getConfig().getStringList("settings.command-start");
+            commands = config.getStringList("settings.command-start");
         } else {
-            commands = AntiRelog.getInstance().getConfig().getStringList("settings.command-end");
+            commands = config.getStringList("settings.command-end");
         }
 
         for (String string : commands) {

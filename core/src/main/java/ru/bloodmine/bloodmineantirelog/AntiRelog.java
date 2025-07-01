@@ -1,7 +1,10 @@
 package ru.bloodmine.bloodmineantirelog;
 
 import co.aikar.commands.PaperCommandManager;
+import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
@@ -10,17 +13,16 @@ import ru.bloodmine.bloodmineantirelog.command.ReloadCommand;
 import ru.bloodmine.bloodmineantirelog.command.TestCommand;
 import ru.bloodmine.bloodmineantirelog.listener.*;
 import ru.bloodmine.bloodmineantirelog.manager.CooldownManager;
+import ru.bloodmine.bloodmineantirelog.manager.ICooldownManager;
+import ru.bloodmine.bloodmineantirelog.manager.IPvPManager;
 import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
-public final class AntiRelog extends JavaPlugin {
+public final class AntiRelog extends JavaPlugin implements AntiRelogPlugin {
 
     public boolean CMI_HOOK = false;
     public boolean WORLDGUARD_HOOK = false;
 
-    public final String VERSION = "1.6";
-    public final String CREATOR = "https://github.com/BloodMineCloud/BloodMineAntiRelog";
-    public final String TELEGRAM_URL = "https://t.me/thedivazo";
-
+    @Getter
     private static AntiRelog instance;
     public PvPManager pvpmanager;
     public CooldownManager cooldownManager;
@@ -28,13 +30,15 @@ public final class AntiRelog extends JavaPlugin {
     @Nullable
     public BukkitTask activeUpdateTask;
 
+    private void info(Object o) {
+        getLogger().info(o.toString());
+    }
+
     @Override
     public void onEnable() {
         instance = this;
 
-        System.out.println("Version: " + CREATOR);
-        System.out.println("By: " + VERSION);
-        System.out.println("Support: " + TELEGRAM_URL);
+        info("Plugin has been enabled!");
 
         loadDepend();
         loadConfig();
@@ -42,9 +46,20 @@ public final class AntiRelog extends JavaPlugin {
         loadListeners();
         loadCommands();
 
-        pvpmanager = new PvPManager();
+        info("Plugin has been loaded!");
+
+        pvpmanager = new PvPManager(this);
         activeUpdateTask = pvpmanager.startTask();
+
+        info("PvPManager has been started!");
+
         cooldownManager = new CooldownManager();
+
+        info("Load all managers!");
+
+        Bukkit.getServicesManager().register(AntiRelogPlugin.class, this, this, ServicePriority.Normal);
+
+        info("Register service AntiRelogPlugin!");
     }
 
     @Override
@@ -58,18 +73,18 @@ public final class AntiRelog extends JavaPlugin {
         PaperCommandManager commandManager = new PaperCommandManager(AntiRelog.getInstance());
 
         commandManager.registerCommand(new HelpCommand());
-        commandManager.registerCommand(new ReloadCommand());
-        commandManager.registerCommand(new TestCommand());
+        commandManager.registerCommand(new ReloadCommand(pvpmanager));
+        commandManager.registerCommand(new TestCommand(pvpmanager));
     }
 
     private void loadListeners() {
-        Bukkit.getPluginManager().registerEvents(new WorldGuardListener(), this);
-        Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
-        Bukkit.getPluginManager().registerEvents(new DeathListener(), this);
-        Bukkit.getPluginManager().registerEvents(new LeaveListener(), this);
-        Bukkit.getPluginManager().registerEvents(new InteractListener(), this);
-        Bukkit.getPluginManager().registerEvents(new CommandListener(), this);
-        Bukkit.getPluginManager().registerEvents(new CooldownListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WorldGuardListener(pvpmanager), this);
+        Bukkit.getPluginManager().registerEvents(new DamageListener(pvpmanager), this);
+        Bukkit.getPluginManager().registerEvents(new DeathListener(pvpmanager), this);
+        Bukkit.getPluginManager().registerEvents(new LeaveListener(pvpmanager), this);
+        Bukkit.getPluginManager().registerEvents(new InteractListener(pvpmanager), this);
+        Bukkit.getPluginManager().registerEvents(new CommandListener(pvpmanager), this);
+        Bukkit.getPluginManager().registerEvents(new CooldownListener(cooldownManager, pvpmanager), this);
     }
 
     private void loadConfig() {
@@ -86,7 +101,18 @@ public final class AntiRelog extends JavaPlugin {
         }
     }
 
-    public static AntiRelog getInstance() {
-        return instance;
+    @Override
+    public Plugin getPlugin() {
+        return this;
+    }
+
+    @Override
+    public IPvPManager getPvPManager() {
+        return pvpmanager;
+    }
+
+    @Override
+    public ICooldownManager getCooldownManager() {
+        return cooldownManager;
     }
 }

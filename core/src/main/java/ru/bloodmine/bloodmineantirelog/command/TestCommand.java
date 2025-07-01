@@ -15,6 +15,12 @@ import ru.bloodmine.bloodmineantirelog.utility.StringUtility;
 @CommandAlias("antirelog|ar")
 public class TestCommand extends BaseCommand {
 
+    private final PvPManager pvpManager;
+
+    public TestCommand(PvPManager pvpManager) {
+        this.pvpManager = pvpManager;
+    }
+
     @Subcommand("test")
     @CommandCompletion("@players")
     @CommandPermission("antirelog.test")
@@ -28,7 +34,7 @@ public class TestCommand extends BaseCommand {
             return;
         }
 
-        PvPManager.addPlayer(player);
+        pvpManager.addPlayer(player);
 
         sender.sendMessage(StringUtility.getMessage(AntiRelog.getInstance().getConfig().getString("messages.test"))
                 .replace("{player}", target));

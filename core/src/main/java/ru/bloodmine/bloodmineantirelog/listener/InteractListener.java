@@ -10,9 +10,15 @@ import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
 public class InteractListener implements Listener {
 
+    private final PvPManager pvpManager;
+
+    public InteractListener(PvPManager pvpManager) {
+        this.pvpManager = pvpManager;
+    }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if (!PvPManager.isPvP(e.getPlayer()))
+        if (!pvpManager.isPvP(e.getPlayer()))
             return;
 
         Block block = e.getClickedBlock();

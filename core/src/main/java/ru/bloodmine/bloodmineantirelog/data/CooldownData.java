@@ -1,25 +1,18 @@
 package ru.bloodmine.bloodmineantirelog.data;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalTime;
 
-public class CooldownData {
+@Getter
+public class CooldownData implements ICooldownData {
+    @Setter
     private LocalTime time;
-    private String materialName;
+    private String item;
 
-    public CooldownData(LocalTime time, String materialName) {
+    public CooldownData(LocalTime time, String item) {
         this.time = time;
-        this.materialName = materialName;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public String getItem() {
-        return materialName;
+        this.item = item;
     }
 }

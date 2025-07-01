@@ -10,6 +10,12 @@ import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 
 public class WorldGuardListener implements Listener {
 
+    private final PvPManager pvpManager;
+
+    public WorldGuardListener(PvPManager pvpManager) {
+        this.pvpManager = pvpManager;
+    }
+
     @EventHandler
     public void onPvP(WrappedDisallowedPVPEvent e) {
         if (!AntiRelog.getInstance().WORLDGUARD_HOOK) return;
@@ -17,7 +23,7 @@ public class WorldGuardListener implements Listener {
         Player attacker = e.getAttacker();
         Player defender = e.getDefender();
 
-        if (PvPManager.isPvP(attacker.getPlayer()) && PvPManager.isPvP(defender.getPlayer())) {
+        if (pvpManager.isPvP(attacker.getPlayer()) && pvpManager.isPvP(defender.getPlayer())) {
             e.setCancelled(true);
             e.setResult(Event.Result.DENY);
         }

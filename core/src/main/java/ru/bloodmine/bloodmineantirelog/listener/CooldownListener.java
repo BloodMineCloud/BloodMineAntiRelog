@@ -23,6 +23,14 @@ import java.time.LocalTime;
 
 public class CooldownListener implements Listener {
 
+    private final CooldownManager cooldownManager;
+    private final PvPManager pvpManager;
+
+    public CooldownListener(CooldownManager cooldownManager, PvPManager pvpManager) {
+        this.cooldownManager = cooldownManager;
+        this.pvpManager = pvpManager;
+    }
+
     @EventHandler
     public void onCrossbowUse(EntityShootBowEvent event) {
         if (event.getEntity() instanceof Player) {
@@ -43,7 +51,7 @@ public class CooldownListener implements Listener {
         PlayerTeleportEvent.TeleportCause cause = e.getCause();
         Player player = e.getPlayer();
 
-        if (!PvPManager.isPvP(player))
+        if (!pvpManager.isPvP(player))
             return;
 
         if (cause == PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT
@@ -115,10 +123,10 @@ public class CooldownListener implements Listener {
     }
 
     private boolean handleCooldown(Player player, Material material) {
-        if (!PvPManager.isPvP(player))
+        if (!pvpManager.isPvP(player))
             return false;
 
-        CooldownData data = CooldownManager.getCooldownData(player, material);
+        CooldownData data = cooldownManager.getCooldownData(player, material);
         int configTime = getCooldownTime(material);
         if (configTime <= 0)
             return false;
@@ -131,7 +139,7 @@ public class CooldownListener implements Listener {
             long remainingTime = configTime - secondsPassed;
 
             if (secondsPassed >= configTime) {
-                CooldownManager.removePlayer(player);
+                cooldownManager.removePlayer(player);
             } else {
                 String message = AntiRelog.getInstance().getConfig().getString("messages.cooldown")
                         .replace("{time}", String.valueOf(remainingTime));
@@ -143,7 +151,7 @@ public class CooldownListener implements Listener {
                 return true;
             }
         } else {
-            CooldownManager.addPlayer(player, material);
+            cooldownManager.addPlayer(player, material);
             return false;
         }
 

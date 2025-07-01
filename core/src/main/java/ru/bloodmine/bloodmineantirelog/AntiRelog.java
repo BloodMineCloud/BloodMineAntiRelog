@@ -38,7 +38,11 @@ public final class AntiRelog extends JavaPlugin implements AntiRelogPlugin {
     public void onEnable() {
         instance = this;
 
-        info("Plugin has been enabled!");
+        cooldownManager = new CooldownManager();
+        pvpmanager = new PvPManager(this);
+        activeUpdateTask = pvpmanager.startTask();
+
+        info("PvPManager has been started!");
 
         loadDepend();
         loadConfig();
@@ -46,20 +50,13 @@ public final class AntiRelog extends JavaPlugin implements AntiRelogPlugin {
         loadListeners();
         loadCommands();
 
-        info("Plugin has been loaded!");
-
-        pvpmanager = new PvPManager(this);
-        activeUpdateTask = pvpmanager.startTask();
-
-        info("PvPManager has been started!");
-
-        cooldownManager = new CooldownManager();
-
         info("Load all managers!");
 
         Bukkit.getServicesManager().register(AntiRelogPlugin.class, this, this, ServicePriority.Normal);
 
         info("Register service AntiRelogPlugin!");
+
+        info("Plugin has been enabled!");
     }
 
     @Override

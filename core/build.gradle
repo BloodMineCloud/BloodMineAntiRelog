@@ -20,7 +20,7 @@ dependencies {
 
     //compileOnly fileTree("/lib") { include "*.jar" }
     implementation 'com.github.Zrips:CMI-API:9.7.14.3'
-    compileOnly "org.codemc.worldguardwrapper:worldguardwrapper:1.2.0-SNAPSHOT"
+    implementation "org.codemc.worldguardwrapper:worldguardwrapper:1.2.0-SNAPSHOT"
     compileOnly 'com.github.placeholderapi:placeholderapi:2.10.9'
 }
 

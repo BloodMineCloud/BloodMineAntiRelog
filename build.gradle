@@ -1,5 +1,11 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
 
     group = 'ru.bloodmine'
     version = '1.6.1'

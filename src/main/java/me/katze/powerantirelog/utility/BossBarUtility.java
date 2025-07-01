@@ -28,8 +28,6 @@ public class BossBarUtility {
 
         bossBar.addPlayer(player);
 
-        Bukkit.getScheduler().runTaskLater(AntiRelog.getInstance(), () -> {
-            bossBar.removePlayer(player);
-        }, 20L);
+        Bukkit.getScheduler().runTaskLater(AntiRelog.getInstance(), () -> bossBar.removePlayer(player), 20L);
     }
 }

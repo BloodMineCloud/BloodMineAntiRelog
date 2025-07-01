@@ -46,7 +46,6 @@ public class DamageListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPotionSplash(PotionSplashEvent e) {
-        if (e.getPotion() == null) return;
         if (!(e.getPotion().getShooter() instanceof Player)) return;
 
         Player damager = (Player) e.getPotion().getShooter();
@@ -55,10 +54,10 @@ public class DamageListener implements Listener {
             if (target == damager) return;
 
             for (PotionEffect effect : e.getPotion().getEffects()) {
-                if (effect.getType().equals(PotionEffectType.POISON)) {
-
+                if (effect.getType().equals(PotionEffectType.POISON) || effect.getType().equals(PotionEffectType.DAMAGE_RESISTANCE)) {
                     PvPManager.addPlayer(damager);
                     PvPManager.addPlayer((Player) target);
+                    return;
                 }
             }
         }

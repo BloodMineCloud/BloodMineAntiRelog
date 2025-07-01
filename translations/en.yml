@@ -55,12 +55,6 @@ settings:
     - "tell"
     - "pm"
 
-  # Worlds in which the plugin will not work
-  disabled-worlds:
-    - "duels"
-    - "duel"
-    - "exampleWorld"
-
 messages:
   start: "§x§E§3§2§6§3§6&l| &fYou started PvP!"
   end: "§x§E§3§2§6§3§6&l| &aYou are no longer in combat."

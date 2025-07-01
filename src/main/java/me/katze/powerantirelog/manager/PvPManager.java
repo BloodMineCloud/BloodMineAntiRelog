@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,13 +28,10 @@ public class PvPManager {
 
     public PvPManager() {
         this.pvpMap = new HashMap<>();
-        startTask();
     }
 
     public static void addPlayer(Player player) {
         if (player == null)
-            return;
-        if (!(player instanceof Player))
             return;
         if (player.hasPermission("powerantirelog.bypass"))
             return;
@@ -47,14 +45,8 @@ public class PvPManager {
         String name = player.getName();
         int time = AntiRelog.getInstance().getConfig().getInt("settings.time");
 
-        for (String world : AntiRelog.getInstance().getConfig().getStringList("settings.disabled-worlds")) {
-            if (player.getWorld().getName().contains(world)) {
-                return;
-            }
-        }
-
         if (pvpMap.containsKey(name)) {
-            pvpMap.replace(name, pvpMap.get(name), time);
+            pvpMap.put(name, time);
         } else {
             player.sendMessage(
                     StringUtility.getMessage(AntiRelog.getInstance().getConfig().getString("messages.start")));
@@ -138,17 +130,11 @@ public class PvPManager {
                     user.setTgod(0L);
                 }
             }
-            if (AntiRelog.getInstance().ESSENTIALS_HOOK) {
-                Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-                User user = essentials.getUser(player);
-
-                user.setGodModeEnabled(false);
-            }
         }
     }
 
-    public static void startTask() {
-        new BukkitRunnable() {
+    public static BukkitTask startTask() {
+        return new BukkitRunnable() {
             @Override
             public void run() {
                 update();

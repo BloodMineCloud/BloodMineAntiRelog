@@ -59,12 +59,6 @@ settings:
   command-start: []
   command-end: []
 
-  # Миры в которых плагин не будет работать
-  disabled-worlds:
-    - "duels"
-    - "duel"
-    - "exampleWorld"
-
 messages:
   start: "§x§E§3§2§6§3§6&l| &fВы начали PvP!"
   end: "§x§E§3§2§6§3§6&l| &aВы больше не находитесь в бою."

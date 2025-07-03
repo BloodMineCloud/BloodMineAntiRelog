@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import ru.bloodmine.bloodmineantirelog.AntiRelog;
+import ru.bloodmine.bloodmineantirelog.manager.PlayerMessageManager;
 import ru.bloodmine.bloodmineantirelog.manager.PvPManager;
 import ru.bloodmine.bloodmineantirelog.utility.StringUtility;
 
@@ -31,7 +32,7 @@ public class CommandListener implements Listener {
         }
 
         e.setCancelled(true);
-        player.sendMessage(StringUtility.getMessage(AntiRelog.getInstance().getConfig().getString("messages.block")));
+        PlayerMessageManager.send("block", player);
     }
 
     private static boolean isWhitelistCommand(String command) {

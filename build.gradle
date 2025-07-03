@@ -8,7 +8,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     group = 'ru.bloodmine'
-    version = '1.6.2'
+    version = '1.6.3'
     description = 'bloodmineantirelog'
 
     repositories {
@@ -80,7 +80,7 @@ subprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(16)
         }
     }
 

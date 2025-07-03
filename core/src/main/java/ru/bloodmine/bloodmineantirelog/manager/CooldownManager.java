@@ -2,6 +2,7 @@ package ru.bloodmine.bloodmineantirelog.manager;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 import ru.bloodmine.bloodmineantirelog.data.CooldownData;
 
 import java.time.LocalTime;
@@ -18,9 +19,13 @@ public class CooldownManager implements ICooldownManager {
 
     @Override
     public void addPlayer(Player player, Material material) {
-        if (material == null) return;
+        addPlayer(player, material.name());
+    }
 
-        CooldownData data = new CooldownData(LocalTime.now(), material.name());
+    public void addPlayer(Player player, String cooldownId) {
+        if (cooldownId == null) return;
+
+        CooldownData data = new CooldownData(LocalTime.now(), cooldownId);
 
         if (cooldownMap.containsKey(player.getName())) {
             List<CooldownData> arrayList = cooldownMap.get(player.getName());
@@ -29,7 +34,7 @@ public class CooldownManager implements ICooldownManager {
 
             cooldownMap.put(player.getName(), arrayList);
         } else {
-            List<CooldownData> arrayList = new ArrayList();
+            List<CooldownData> arrayList = new ArrayList<>();
 
             arrayList.add(data);
 
@@ -37,11 +42,17 @@ public class CooldownManager implements ICooldownManager {
         }
     }
 
+    @Nullable
     @Override
     public CooldownData getCooldownData(Player player, Material material) {
-        if (cooldownMap.containsKey(player.getName())) {
+        return getCooldownData(player, material.name());
+    }
+
+    @Nullable
+    public CooldownData getCooldownData(Player player, String cooldownId) {
+        if (cooldownMap.containsKey(player.getName()) && cooldownId != null) {
             for (CooldownData cooldownData : cooldownMap.get(player.getName())) {
-                if (cooldownData.getItem().equals(material.name())) {
+                if (cooldownData.getItem().equals(cooldownId)) {
                     return cooldownData;
                 }
             }

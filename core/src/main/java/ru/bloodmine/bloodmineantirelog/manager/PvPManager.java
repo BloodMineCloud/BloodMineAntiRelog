@@ -61,8 +61,7 @@ public class PvPManager implements IPvPManager {
         if (pvpMap.containsKey(name)) {
             pvpMap.put(name, time);
         } else {
-            player.sendMessage(
-                    StringUtility.getMessage(config.getString("messages.start")));
+            PlayerMessageManager.send("start", player);
             sendCommands(true, player);
             disable(player);
             pvpMap.put(name, time);
@@ -134,8 +133,10 @@ public class PvPManager implements IPvPManager {
                 && player.getInventory().getChestplate().getType() == Material.ELYTRA) {
 
             ItemStack elytra = player.getInventory().getChestplate().clone();
-            player.getInventory().setChestplate(null);
-            player.getInventory().addItem(elytra);
+            Map<Integer, ItemStack> savedMap = player.getInventory().addItem(elytra);
+            if (savedMap.isEmpty()) {
+                player.getInventory().setChestplate(null);
+            }
         }
 
         if (config.getBoolean("settings.disable.godmode")) {
@@ -173,8 +174,7 @@ public class PvPManager implements IPvPManager {
                 iterator.remove();
                 Player player = Bukkit.getPlayer(name);
                 if (player != null) {
-                    player.sendMessage(
-                            StringUtility.getMessage(config.getString("messages.end")));
+                    PlayerMessageManager.send("end", player);
                     sendCommands(false, player);
                 }
             } else {

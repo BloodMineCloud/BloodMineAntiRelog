@@ -44,6 +44,7 @@ settings:
     totem: 0
     trident: 0
     crossbow: 0
+    health-potion: 0
 
   # Работает только если cancel.command ровно true
   command-whitelist:
@@ -59,13 +60,16 @@ settings:
 
 messages:
   start: "§x§E§3§2§6§3§6&l| &fВы начали PvP!"
+  #С помощью суффиксов `-subtitle` и `-actionbar` вы можете управлять местом вывода сообщения. По умолчанию, сообщения выводятся в чат
+  #start-subtitle: "&fВы начали PvP!"
+  #start-actionbar: "&fВы начали PvP!"
   end: "§x§E§3§2§6§3§6&l| &aВы больше не находитесь в бою."
   block: "§x§E§3§2§6§3§6&l| &cВы не можете делать это в режиме PvP!"
   cooldown: "§x§E§3§2§6§3§6&l| &fПодождите §x§E§3§2§6§3§6{time}, &fчтобы использовать этот предмет!"
 
-  # Установите "", чтобы отключить
-  cooldown-subtitle: "&fПодождите §x§E§3§2§6§3§6{time}, &fчтобы использовать этот предмет!"
+  #cooldown-subtitle: "&fПодождите §x§E§3§2§6§3§6{time}, &fчтобы использовать этот предмет!"
 
+ #На данные сообщения суффиксы не работают
   help:
     - "&r"
     - "§x§E§3§2§6§3§6PowerAntiRelog:"

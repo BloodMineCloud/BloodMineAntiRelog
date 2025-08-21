@@ -105,15 +105,15 @@ public class PvPManager implements IPvPManager {
         if (config.getBoolean("settings.disable.fly")) {
             player.setFlying(false);
             player.setAllowFlight(false);
-            if (antiRelog.CMI_HOOK) {
-                CMIUser user = CMI.getInstance().getPlayerManager().getUser(player);
-
-                if (user != null) {
-                    user.setFlying(false);
-                    user.setWasFlying(false);
-                    user.setTfly(0L);
-                }
-            }
+//            if (antiRelog.CMI_HOOK) {
+//                CMIUser user = CMI.getInstance().getPlayerManager().getUser(player);
+//
+//                if (user != null) {
+//                    user.setFlying(false);
+//                    user.setWasFlying(false);
+//                    user.setTfly(0L);
+//                }
+//            }
         }
 
         if (config.getBoolean("settings.disable.speed")) {
@@ -141,12 +141,12 @@ public class PvPManager implements IPvPManager {
 
         if (config.getBoolean("settings.disable.godmode")) {
             if (antiRelog.CMI_HOOK) {
-                CMIUser user = CMI.getInstance().getPlayerManager().getUser(player);
-
-                if (user != null) {
-                    CMI.getInstance().getNMS().changeGodMode(player, false);
-                    user.setTgod(0L);
-                }
+//                CMIUser user = CMI.getInstance().getPlayerManager().getUser(player);
+//
+//                if (user != null) {
+//                    CMI.getInstance().getNMS().changeGodMode(player, false);
+//                    user.setTgod(0L);
+//                }
             }
         }
     }

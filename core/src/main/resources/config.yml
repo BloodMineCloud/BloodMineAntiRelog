@@ -46,6 +46,13 @@ settings:
     crossbow: 0
     health-potion: 0
 
+  material-cooldown:
+    - golden-apple
+    - enchanted-golden-apple
+    - ender-pearl
+    - chorus
+
+
   # Работает только если cancel.command ровно true
   command-whitelist:
     - "msg"

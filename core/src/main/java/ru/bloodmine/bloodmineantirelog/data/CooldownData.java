@@ -15,4 +15,12 @@ public class CooldownData implements ICooldownData {
         this.time = time;
         this.item = item;
     }
+
+    @Override
+    public String toString() {
+        return "CooldownData{" +
+                "time=" + time +
+                ", item='" + item + '\'' +
+                '}';
+    }
 }

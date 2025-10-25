@@ -28,11 +28,12 @@ import ru.bloodmine.bloodmineantirelog.utility.ItemNameRegistry;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.logging.Logger;
 
 import static org.bukkit.Material.*;
 
 public class CooldownListener implements Listener {
+
+    private static final int MILLIS_PER_TICK = 50;
 
     private final Set<Material> launchMaterials = Set.of(ENDER_PEARL, TRIDENT);
 
@@ -51,6 +52,7 @@ public class CooldownListener implements Listener {
             .registry("firework", Material.FIREWORK_ROCKET)
             .registry("totem", Material.TOTEM_OF_UNDYING)
             .registry("crossbow", Material.CROSSBOW)
+            .registry("experience-bottle", Material.EXPERIENCE_BOTTLE)
             .registry("health-potion", POTION, (itemStack) -> {
                 if ((itemStack.getType() == Material.POTION) && itemStack.getItemMeta() instanceof PotionMeta potionMeta) {
                     PotionData potionData = potionMeta.getBasePotionData();
@@ -166,7 +168,7 @@ public class CooldownListener implements Listener {
             return false;
 
         CooldownData data = cooldownManager.getCooldownData(player, cooldownId);
-        int configTime = getCooldownTime(cooldownId);
+        int configTime = getCooldownTimeInSecond(cooldownId);
         if (cooldownId == null || configTime <= 0)
             return false;
 
@@ -174,15 +176,15 @@ public class CooldownListener implements Listener {
             LocalTime now = LocalTime.now();
             LocalTime cooldown = data.getTime();
             Duration timePassed = Duration.between(cooldown, now);
-            long secondsPassed = timePassed.getSeconds();
-            long remainingTime = configTime - secondsPassed;
+            long ticksPassed = timePassed.toMillis() / MILLIS_PER_TICK;
+            long remainingTickTime = configTime - ticksPassed;
 
-            if (secondsPassed >= configTime) {
+            if (ticksPassed >= configTime) {
                 cooldownManager.removePlayer(player);
                 setCooldown(player, cooldownId);
                 return false;
             } else {
-                PlayerMessageManager.send("cooldown", player, message -> message.replace("{time}", String.valueOf(remainingTime)));
+                PlayerMessageManager.send("cooldown", player, message -> message.replace("{time}", String.valueOf(remainingTickTime / 20)));
                 return true;
             }
         } else {
@@ -199,9 +201,9 @@ public class CooldownListener implements Listener {
     private void handleMaterialCooldown(Player player, String configName) {
         if (!getMaterialCooldownList().contains(configName)) return;
         Material material = itemNameRegistry.getCooldownMaterial(configName);
-        int configTime = getCooldownTime(configName);
+        int configTime = getCooldownTimeInSecond(configName);
         if (configTime > 0 && material != null) {
-            Bukkit.getScheduler().runTaskLater(AntiRelog.getInstance(), ()-> player.setCooldown(material, configTime*20-1), 1);
+            Bukkit.getScheduler().runTaskLater(AntiRelog.getInstance(), ()-> player.setCooldown(material,  Math.max(0, configTime-1)), 1);
             //player.setCooldown(material, configTime*20);
         }
     }
@@ -211,7 +213,7 @@ public class CooldownListener implements Listener {
         return itemNameRegistry.getItemName(item);
     }
 
-    private int getCooldownTime(String cooldownId) {
+    private int getCooldownTimeInSecond(String cooldownId) {
         if (cooldownId == null) return 0;
         return AntiRelog.getInstance().getConfig().getInt("settings.cooldown." + cooldownId, 0);
     }

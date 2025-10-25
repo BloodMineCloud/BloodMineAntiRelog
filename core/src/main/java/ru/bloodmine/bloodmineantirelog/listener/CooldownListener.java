@@ -53,6 +53,7 @@ public class CooldownListener implements Listener {
             .registry("totem", Material.TOTEM_OF_UNDYING)
             .registry("crossbow", Material.CROSSBOW)
             .registry("experience-bottle", Material.EXPERIENCE_BOTTLE)
+            .registry("bow", Material.BOW)
             .registry("health-potion", POTION, (itemStack) -> {
                 if ((itemStack.getType() == Material.POTION) && itemStack.getItemMeta() instanceof PotionMeta potionMeta) {
                     PotionData potionData = potionMeta.getBasePotionData();

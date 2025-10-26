@@ -3,6 +3,7 @@ package ru.bloodmine.bloodmineantirelog.listener;
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,14 +36,15 @@ public class CooldownListener implements Listener {
 
     private static final int MILLIS_PER_TICK = 50;
 
-    private final Set<Material> launchMaterials = Set.of(ENDER_PEARL, TRIDENT);
+    private final Set<Material> launchMaterials = EnumSet.of(ENDER_PEARL, TRIDENT, FIRE_CHARGE, SNOWBALL, EGG, SPLASH_POTION);
 
-    private final Set<PlayerTeleportEvent.TeleportCause> teleportCauses = Set.of(
+    private final Set<PlayerTeleportEvent.TeleportCause> teleportCauses = EnumSet.of(
             PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT,
             PlayerTeleportEvent.TeleportCause.ENDER_PEARL
     );
 
-    private final Set<Material> consumerCooldown = Set.of(GOLDEN_APPLE, ENCHANTED_GOLDEN_APPLE, CHORUS_FRUIT, POTION);
+    private final Set<Material> consumerCooldown = EnumSet.of(GOLDEN_APPLE, ENCHANTED_GOLDEN_APPLE, CHORUS_FRUIT, POTION);
+    private final Set<Material> shootCooldown = EnumSet.of(BOW, CROSSBOW);
 
     private final ItemNameRegistry itemNameRegistry = ItemNameRegistry.builder()
             .registry("golden-apple", Material.GOLDEN_APPLE)
@@ -54,6 +56,7 @@ public class CooldownListener implements Listener {
             .registry("crossbow", Material.CROSSBOW)
             .registry("experience-bottle", Material.EXPERIENCE_BOTTLE)
             .registry("bow", Material.BOW)
+            .registry("fireball", FIRE_CHARGE)
             .registry("health-potion", POTION, (itemStack) -> {
                 if ((itemStack.getType() == Material.POTION) && itemStack.getItemMeta() instanceof PotionMeta potionMeta) {
                     PotionData potionData = potionMeta.getBasePotionData();
@@ -73,15 +76,22 @@ public class CooldownListener implements Listener {
 
     @EventHandler
     public void onCrossbowUse(EntityShootBowEvent event) {
-        if (event.getEntity() instanceof Player) {
-            if (event.getBow() == null) {
-                return;
-            }
-            if (itemNameRegistry.hasItem(event.getBow())) {
-                Player player = (Player) event.getEntity();
-                if (handleCooldown(player, event.getBow())) {
-                    event.setCancelled(true);
-                }
+        if (!(event.getEntity() instanceof Player)) {
+            return;
+        }
+        if (event.getBow() == null) {
+            return;
+        }
+
+        boolean isCrossbowAndMultishot = event.getBow().getType().equals(Material.CROSSBOW)
+                && event.getBow().getItemMeta().hasEnchant(Enchantment.MULTISHOT);
+
+        if (event.getForce() != 1.0f && isCrossbowAndMultishot) return;
+
+        if (shootCooldown.contains(event.getBow().getType())) {
+            Player player = (Player) event.getEntity();
+            if (handleCooldown(player, event.getBow())) {
+                event.setCancelled(true);
             }
         }
     }
@@ -138,6 +148,7 @@ public class CooldownListener implements Listener {
         if (e.getItem() == null) return;
         if (!consumerCooldown.contains(e.getMaterial())
                 && !launchMaterials.contains(e.getMaterial())
+                && !shootCooldown.contains(e.getMaterial())
                 && handleCooldown(player, e.getItem())) {
             e.setCancelled(true);
         }

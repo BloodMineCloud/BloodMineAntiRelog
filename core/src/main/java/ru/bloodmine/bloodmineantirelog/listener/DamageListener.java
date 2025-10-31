@@ -21,7 +21,7 @@ public class DamageListener implements Listener {
         this.pvpManager = pvpManager;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onDamageByEntity(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) return;
 
@@ -35,7 +35,7 @@ public class DamageListener implements Listener {
         pvpManager.addPlayer(damager);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onCombust(EntityCombustByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) return;
 
@@ -50,7 +50,7 @@ public class DamageListener implements Listener {
         pvpManager.addPlayer(damager);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onPotionSplash(PotionSplashEvent e) {
         if (!(e.getPotion().getShooter() instanceof Player)) return;
 

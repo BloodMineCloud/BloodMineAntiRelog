@@ -196,7 +196,7 @@ public class CooldownListener implements Listener {
                 setCooldown(player, cooldownId);
                 return false;
             } else {
-                PlayerMessageManager.send("cooldown", player, message -> message.replace("{time}", String.valueOf(remainingTickTime / 20)));
+                PlayerMessageManager.send("cooldown", player, message -> message.replace("{time}", String.valueOf(remainingTickTime / 20)), remainingTickTime);
                 return true;
             }
         } else {

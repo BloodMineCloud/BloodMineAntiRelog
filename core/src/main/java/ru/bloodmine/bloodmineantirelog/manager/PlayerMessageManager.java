@@ -41,6 +41,14 @@ public class PlayerMessageManager {
         sendActionBar(key, player, replacer);
     }
 
+    public static void send(String key, Player player, Function<String, String> replacer, long remainingTickTime) {
+        if (remainingTickTime > 30) {
+            sendMessage(key, player, replacer);
+        }
+        sendSubtitle(key, player, replacer);
+        sendActionBar(key, player, replacer);
+    }
+
     public static void send(String key, Player player) {
         send(key, player, Function.identity());
     }
